@@ -2,7 +2,7 @@
   <h1>Izago</h1>
 
   <p>
-    <a href='https://godoc.org/github.com/bwmarrin/discordgo'>
+    <a href='https://godoc.org/github.com/NyanKiyoshi/izago'>
       <img src='https://godoc.org/github.com/NyanKiyoshi/izago?status.svg'
            alt='Godoc'/>
     </a>
