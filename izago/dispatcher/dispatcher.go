@@ -23,6 +23,8 @@ func (mod *DiscordModule) AddDMCommand(name string, handler DiscordCommandHandle
 	mod.DirectMessageCommands[name] = createCommand(handler, helpText)
 }
 
+// Get retrieves the command definition of the given command name.
+// Returns nil if the command was not found.
 func (commands CommandHandlers) Get(name string) *CommandDefinition {
 	if command, found := commands[name]; found {
 		return command
@@ -31,6 +33,8 @@ func (commands CommandHandlers) Get(name string) *CommandDefinition {
 	return nil
 }
 
+// FindCommand looks for a given command name
+// of a given scope (DMs or Guid only command) in the loaded modules.
 func FindCommand(name string, isDm bool) *CommandDefinition {
 	var command *CommandDefinition
 

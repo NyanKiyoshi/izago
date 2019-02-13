@@ -6,17 +6,26 @@ import (
 	"reflect"
 )
 
+// DiscordCommandHandler defines the signature of a command handler.
+// It will get called with a session and a MessageCreate event structure.
 type DiscordCommandHandler func(
 	session *discordgo.Session, message *discordgo.MessageCreate)
 
+// CommandDefinition defines the definition of a command.
+// It contains a handling function and help texts.
 type CommandDefinition struct {
 	Handler   DiscordCommandHandler
 	ShortHelp string
 	LongHelp  string
 }
 
+// CommandHandlers defines a mapping of commands
+// (commandName -> CommandDefinitions).
 type CommandHandlers map[string]*CommandDefinition
 
+// DiscordModule defines the structure of a module.
+// It contains the module name (package import name),
+// the registered guild + DM commands and the different event listeners.
 type DiscordModule struct {
 	Name                  string
 	Listeners             []interface{}

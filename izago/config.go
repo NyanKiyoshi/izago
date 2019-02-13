@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+// Config contains the basic bot's configuration
+// passed through command line arguments (flags).
 var Config = struct {
 	Token string
 }{}

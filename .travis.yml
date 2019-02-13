@@ -5,7 +5,6 @@ language: go
 go_import_path: github.com/NyanKiyoshi/izago
 
 go:
-  - "1.9"
   - "1.10.x"
   - "1.11.x"
   - master
@@ -23,10 +22,10 @@ script:
   - "go test -race \
         -covermode=atomic \
         -coverpkg=./izago/... \
-        -coverprofile coverage.txt \
+        -coverprofile=coverage.txt \
         -tags test \
-        -token 123 \
-        ./izago/..."
+        ./izago/... \
+        -token 123"
 
 after_success:
   - "python -m codecov"
