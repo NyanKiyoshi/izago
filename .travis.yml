@@ -1,0 +1,26 @@
+sudo: enabled
+
+language: go
+
+go_import_path: github.com/NyanKiyoshi/izago
+
+go:
+  - "1.9"
+  - "1.10.x"
+  - "1.11.x"
+  - master
+
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
+
+install:
+  - "sudo python -m pip install codecov"
+  - "go get -t -v ./..."
+
+script:
+  - "go test -race -covermode=atomic -coverpkg=./izago -coverprofile coverage.txt ./izago"
+
+after_success:
+  - "python -m codecov"

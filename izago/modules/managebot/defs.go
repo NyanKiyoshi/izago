@@ -1,6 +1,6 @@
 package managebot
 
-import "izago/izago/dispatcher"
+import "github.com/NyanKiyoshi/izago/izago/dispatcher"
 
 var Module = dispatcher.New("botManagement")
 

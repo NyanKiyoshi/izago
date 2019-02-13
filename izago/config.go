@@ -3,7 +3,7 @@ package izago
 import (
 	"flag"
 	"fmt"
-	_ "izago/izago/modules"
+	_ "github.com/NyanKiyoshi/izago/izago/modules"
 	"os"
 )
 

@@ -1,5 +1,5 @@
 package modules
 
 import (
-	_ "izago/izago/modules/managebot"
+	_ "github.com/NyanKiyoshi/izago/izago/modules/managebot"
 )

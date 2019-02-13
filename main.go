@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/NyanKiyoshi/izago/izago"
+	"github.com/NyanKiyoshi/izago/izago/dispatcher"
 	"github.com/bwmarrin/discordgo"
-	"izago/izago"
-	"izago/izago/dispatcher"
 	"log"
 	"os"
 	"os/signal"
