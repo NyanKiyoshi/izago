@@ -9,6 +9,7 @@ type _internal struct{}
 func init() {
 	module := dispatcher.New(_internal{})
 	module.AddCommand(
-		"status", commandGetBotStatus,
-		`Gets the bot's status information.`)
+		"help", commandGetHelp,
+		`Gets the list of commands.`)
+	module.AddListener(onMessageReceived)
 }

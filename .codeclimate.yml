@@ -9,7 +9,6 @@ plugins:
 exclude_patterns:
   - "*_test.go"
   - "tests/"
-  - "main.go"
 
 ratings:
   paths:

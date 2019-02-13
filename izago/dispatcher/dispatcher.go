@@ -1,30 +1,57 @@
 package dispatcher
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"github.com/bwmarrin/discordgo"
+	"strings"
+)
+
+func createCommand(handler DiscordCommandHandler, helpText string) *CommandDefinition {
+	return &CommandDefinition{
+		Handler:   handler,
+		ShortHelp: strings.SplitN(helpText, "\n", 1)[0],
+		LongHelp:  helpText,
+	}
+}
 
 // AddCommand registers a command for server messages.
-func (mod *DiscordModule) AddCommand(name string, handler DiscordCommandHandler) {
-	mod.serverCommands[name] = handler
+func (mod *DiscordModule) AddCommand(name string, handler DiscordCommandHandler, helpText string) {
+	mod.ServerCommands[name] = createCommand(handler, helpText)
 }
 
 // AddDMCommand registers a command for direct messages.
-func (mod *DiscordModule) AddDMCommand(name string, handler DiscordCommandHandler) {
-	mod.directMessageCommands[name] = handler
+func (mod *DiscordModule) AddDMCommand(name string, handler DiscordCommandHandler, helpText string) {
+	mod.DirectMessageCommands[name] = createCommand(handler, helpText)
 }
 
-func (commands CommandHandlers) dispatch(
-	name string, session *discordgo.Session, message *discordgo.MessageCreate) bool {
-
+func (commands CommandHandlers) Get(name string) *CommandDefinition {
 	if command, found := commands[name]; found {
-		if session.SyncEvents {
-			(command)(session, message)
-		} else {
-			go (command)(session, message)
-		}
-		return true
+		return command
 	}
 
-	return false
+	return nil
+}
+
+func FindCommand(name string, isDm bool) *CommandDefinition {
+	var command *CommandDefinition
+
+	// Search for a module that can handle the command.
+	for _, module := range ActivatedModules {
+		// If the received command was sent in a guild, dispatch
+		// it to the guild commands handlers.
+		if !isDm {
+			command = module.ServerCommands.Get(name)
+		} else {
+			command = module.DirectMessageCommands.Get(name)
+		}
+
+		// If the command was found,
+		// we stop searching and we return it.
+		if command != nil {
+			return command
+		}
+	}
+
+	return nil
 }
 
 // dispatchCommand dispatches a received guild command
@@ -32,22 +59,11 @@ func (commands CommandHandlers) dispatch(
 func dispatchCommand(
 	receivedCommand string, session *discordgo.Session, message *discordgo.MessageCreate) {
 
-	// Search for a module that can handle the command.
-	for _, module := range activatedModules {
-		// If the received command was sent in a guild, dispatch
-		// it to the guild commands handlers.
-		//
-		// If it was handled by the module,
-		// we stop searching for an handler as we found it.
-		if message.GuildID != "" {
-			if module.serverCommands.dispatch(receivedCommand, session, message) {
-				break
-			}
+	if command := FindCommand(receivedCommand, message.GuildID == ""); command != nil {
+		if session.SyncEvents {
+			command.Handler(session, message)
 		} else {
-			// Dispatch the DM command
-			if module.directMessageCommands.dispatch(receivedCommand, session, message) {
-				break
-			}
+			go command.Handler(session, message)
 		}
 	}
 }

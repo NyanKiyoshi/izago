@@ -20,7 +20,13 @@ install:
   - "go get -t -v ./..."
 
 script:
-  - "go test -race -covermode=atomic -coverpkg=./izago -coverprofile coverage.txt ./izago"
+  - "go test -race \
+        -covermode=atomic \
+        -coverpkg=./izago \
+        -coverprofile coverage.txt \
+        -tags test \
+        -token 123 \
+        ./izago"
 
 after_success:
   - "python -m codecov"
