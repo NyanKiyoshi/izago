@@ -2,6 +2,7 @@ package dispatcher
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"strings"
 )
 
 // onMessageReceived dispatches a received message
@@ -13,7 +14,7 @@ func onMessageReceived(session *discordgo.Session, message *discordgo.MessageCre
 
 	// TODO: add proper handling through command prefix
 	//  (=> check whether the message is a command)
-	receivedCommand := message.Content
+	receivedCommand := strings.ToLower(message.Content)
 
 	// Handle the command
 	dispatchCommand(receivedCommand, session, message)

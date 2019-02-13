@@ -22,11 +22,11 @@ install:
 script:
   - "go test -race \
         -covermode=atomic \
-        -coverpkg=./izago \
+        -coverpkg=./izago/... \
         -coverprofile coverage.txt \
         -tags test \
         -token 123 \
-        ./izago"
+        ./izago/..."
 
 after_success:
   - "python -m codecov"

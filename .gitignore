@@ -13,3 +13,6 @@
 
 # Ignore hidden folders
 .*/
+
+# Ignore coverage
+coverage.txt
