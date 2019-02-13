@@ -7,6 +7,10 @@ import (
 	"log"
 )
 
+func init() {
+	module.AddListener(onMessageReceived)
+}
+
 func onMessageReceived(session *discordgo.Session, message *discordgo.MessageCreate) {
 	if message.Author.Bot {
 		return
