@@ -17,7 +17,7 @@ func createBot() *discordgo.Session {
 		log.Panic("error creating Discord session: ", err.Error())
 	}
 
-	dispatcher.LoadModules(session)
+	dispatcher.ActivateModules(session)
 	return session
 }
 

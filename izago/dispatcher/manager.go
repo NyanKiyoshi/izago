@@ -2,6 +2,7 @@ package dispatcher
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"log"
 )
 
 type DiscordCommandHandler func(
@@ -27,29 +28,33 @@ var activatedModules []*DiscordModule
 // New creates a new base module from a given name.
 func New(name string) *DiscordModule {
 	newModule := &DiscordModule{
-		name: name,
+		name:                  name,
+		serverCommands:        map[string]DiscordCommandHandler{},
+		directMessageCommands: map[string]DiscordCommandHandler{},
 	}
 
 	createdModules = append(createdModules, newModule)
 	return newModule
 }
 
-// LoadModules loads every available and activated modules
+// ActivateModules loads every available and activated modules
 // into a given discord session.
-func LoadModules(session *discordgo.Session) {
+func ActivateModules(session *discordgo.Session) {
 	// Register global handlers into the discord session
 	session.AddHandler(onMessageReceived)
 
 	for _, module := range createdModules {
+		log.Print("Activating: ", module.name)
+
 		// TODO - feature:
 		//  	we should check whether the module is enabled or not
-		module.ActivateModule(session)
+		module.activateModule(session)
 	}
 }
 
-// ActivateModule adds every registered listeners
+// activateModule adds every registered listeners
 // into a discord session.
-func (mod *DiscordModule) ActivateModule(session *discordgo.Session) {
+func (mod *DiscordModule) activateModule(session *discordgo.Session) {
 	session.Lock()
 	defer session.Unlock()
 
