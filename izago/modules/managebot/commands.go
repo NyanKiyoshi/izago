@@ -1,5 +1,7 @@
-package main
+package managebot
 
-func main() {
-	$END$
+import "github.com/bwmarrin/discordgo"
+
+func commandGetBotStatus(session *discordgo.Session, message *discordgo.MessageCreate) {
+
 }

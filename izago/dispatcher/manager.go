@@ -7,7 +7,7 @@ import (
 type DiscordCommandHandler func(
 	session *discordgo.Session, message *discordgo.MessageCreate)
 
-type CommandHandlers map[string]*DiscordCommandHandler
+type CommandHandlers map[string]DiscordCommandHandler
 
 type DiscordModule struct {
 	name                  string
@@ -16,13 +16,13 @@ type DiscordModule struct {
 	directMessageCommands CommandHandlers
 }
 
-// CreatedModules contains all the created modules,
+// createdModules contains all the created modules,
 // but they may not be activated.
-var CreatedModules []*DiscordModule
+var createdModules []*DiscordModule
 
-// ActivatedModules contains all the modules that are loaded
+// activatedModules contains all the modules that are loaded
 // into the discord session.
-var ActivatedModules []*DiscordModule
+var activatedModules []*DiscordModule
 
 // New creates a new base module from a given name.
 func New(name string) *DiscordModule {
@@ -30,7 +30,7 @@ func New(name string) *DiscordModule {
 		name: name,
 	}
 
-	CreatedModules = append(CreatedModules, newModule)
+	createdModules = append(createdModules, newModule)
 	return newModule
 }
 
@@ -40,7 +40,7 @@ func LoadModules(session *discordgo.Session) {
 	// Register global handlers into the discord session
 	session.AddHandler(onMessageReceived)
 
-	for _, module := range CreatedModules {
+	for _, module := range createdModules {
 		// TODO - feature:
 		//  	we should check whether the module is enabled or not
 		module.ActivateModule(session)
@@ -57,7 +57,7 @@ func (mod *DiscordModule) ActivateModule(session *discordgo.Session) {
 		session.AddHandler(listener)
 	}
 
-	ActivatedModules = append(ActivatedModules, mod)
+	activatedModules = append(activatedModules, mod)
 }
 
 // RegisterListener appends a function handler

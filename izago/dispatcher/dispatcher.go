@@ -2,13 +2,13 @@ package dispatcher
 
 import "github.com/bwmarrin/discordgo"
 
-// RegisterServerCommand registers a command for server messages.
-func (mod *DiscordModule) RegisterServerCommand(name string, handler *DiscordCommandHandler) {
+// AddCommand registers a command for server messages.
+func (mod *DiscordModule) AddCommand(name string, handler DiscordCommandHandler) {
 	mod.serverCommands[name] = handler
 }
 
-// RegisterDMCommand registers a command for direct messages.
-func (mod *DiscordModule) RegisterDMCommand(name string, handler *DiscordCommandHandler) {
+// AddDMCommand registers a command for direct messages.
+func (mod *DiscordModule) AddDMCommand(name string, handler DiscordCommandHandler) {
 	mod.directMessageCommands[name] = handler
 }
 
@@ -17,9 +17,9 @@ func (commands CommandHandlers) dispatch(
 
 	if command, found := commands[name]; found {
 		if session.SyncEvents {
-			(*command)(session, message)
+			(command)(session, message)
 		} else {
-			go (*command)(session, message)
+			go (command)(session, message)
 		}
 		return true
 	}
@@ -27,17 +27,27 @@ func (commands CommandHandlers) dispatch(
 	return false
 }
 
-// dispatchServerCommand dispatches a received guild command
+// dispatchCommand dispatches a received guild command
 // to the proper module.
-func dispatchServerCommand(
+func dispatchCommand(
 	receivedCommand string, session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	// Search for a module that can handle the command.
-	for _, module := range ActivatedModules {
-		// If the received command was handled by the module,
-		// stop searching for an handler, we found it.
-		if module.serverCommands.dispatch(receivedCommand, session, message) {
-			break
+	for _, module := range activatedModules {
+		// If the received command was sent in a guild, dispatch
+		// it to the guild commands handlers.
+		//
+		// If it was handled by the module,
+		// we stop searching for an handler as we found it.
+		if message.GuildID != "" {
+			if module.serverCommands.dispatch(receivedCommand, session, message) {
+				break
+			}
+		} else {
+			// Dispatch the DM command
+			if module.directMessageCommands.dispatch(receivedCommand, session, message) {
+				break
+			}
 		}
 	}
 }
