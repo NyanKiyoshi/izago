@@ -7,7 +7,7 @@ import (
 )
 
 var getHelpExpectedHelpText = "```Usage:\n" +
-	"servercommand\tThis test passes as well.```"
+	"servercommand  This test passes as well.```"
 
 func Test_getHelp(t *testing.T) {
 	session := &discordgo.Session{}

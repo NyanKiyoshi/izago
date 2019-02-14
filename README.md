@@ -20,14 +20,14 @@
            alt='Code coverage' />
     </a>
     <a href='https://codeclimate.com/github/NyanKiyoshi/izago/maintainability'>
-      <img src='https://api.codeclimate.com/v1/badges/d9b386833c240f7a8f2f/maintainability'
+      <img src='https://api.codeclimate.com/v1/badges/cbb26d85cdfd9c19d962/maintainability'
            alt='Maintainability' />
     </a>
   </p>
 </div>
 
 ## Requirements
-- Golang 1.9+ with modules (VGO) support;
+- Golang 1.10+ with modules (VGO) support;
 - Make sure you correctly set `GOROOT` to your Go installation 
   and `GOPATH` to your Go cache.
 

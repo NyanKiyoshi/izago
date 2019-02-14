@@ -17,7 +17,7 @@ func generateHelpText(session *discordgo.Session) {
 	for _, module := range dispatcher.ActivatedModules {
 		for name, command := range module.ServerCommands {
 			// TODO: add command prefix
-			helpText += fmt.Sprintf("\n%s\t%s", name, command.ShortHelp)
+			helpText += fmt.Sprintf("\n%-15s%s", name, command.ShortHelp)
 		}
 	}
 
