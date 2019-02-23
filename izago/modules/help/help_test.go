@@ -7,7 +7,7 @@ import (
 )
 
 var getHelpExpectedHelpText = "```Usage:\n" +
-	"servercommand  This test passes as well.```"
+	">servercommand  This test passes as well.```"
 
 func Test_getHelp(t *testing.T) {
 	session := &discordgo.Session{}
@@ -36,13 +36,13 @@ var getCommandHelpTextTests = []struct {
 		// DM command
 		true,
 		"dmcommand",
-		"```dmcommand:\nThis test passes.```",
+		"```>dmcommand:\nThis test passes.```",
 	},
 	{
 		// Guild command
 		false,
 		"servercommand",
-		"```servercommand:\nThis test passes as well.```",
+		"```>servercommand:\nThis test passes as well.```",
 	},
 }
 

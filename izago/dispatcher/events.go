@@ -1,6 +1,7 @@
 package dispatcher
 
 import (
+	"github.com/NyanKiyoshi/izago/izago/globals"
 	"github.com/bwmarrin/discordgo"
 	"strings"
 )
@@ -12,9 +13,13 @@ func onMessageReceived(session *discordgo.Session, message *discordgo.MessageCre
 		return
 	}
 
-	// TODO: add proper handling through command prefix
-	//  (=> check whether the message is a command)
-	receivedCommand := strings.ToLower(message.Content)
+	// Check if the message is a command
+	if !strings.HasPrefix(
+		message.Content, globals.Config.Prefix) {
+		return
+	}
+	receivedCommand := strings.ToLower(strings.TrimPrefix(
+		message.Content, globals.Config.Prefix))
 
 	// Handle the command
 	dispatchCommand(receivedCommand, session, message)
