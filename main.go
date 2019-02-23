@@ -1,8 +1,10 @@
 package main
 
 import (
-	"github.com/NyanKiyoshi/izago/izago"
 	"github.com/NyanKiyoshi/izago/izago/dispatcher"
+	"github.com/NyanKiyoshi/izago/izago/globals"
+	// This is required to import all the modules of the bot
+	_ "github.com/NyanKiyoshi/izago/izago/modules"
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"os"
@@ -11,7 +13,7 @@ import (
 )
 
 func createBot() *discordgo.Session {
-	session, err := discordgo.New("Bot " + izago.Config.Token)
+	session, err := discordgo.New("Bot " + globals.Config.Token)
 
 	if err != nil {
 		log.Panic("error creating Discord session: ", err.Error())

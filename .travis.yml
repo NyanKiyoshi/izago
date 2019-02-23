@@ -9,6 +9,10 @@ go:
   - "1.11.x"
   - master
 
+env:
+  global:
+    - CONFIG_PATH=$PWD/configs/unittests.yaml
+
 matrix:
   allow_failures:
     - go: master
@@ -24,8 +28,7 @@ script:
         -coverpkg=./izago/... \
         -coverprofile=coverage.txt \
         -tags test \
-        ./izago/... \
-        -token 123"
+        ./izago/..."
 
 after_success:
   - "python -m codecov"

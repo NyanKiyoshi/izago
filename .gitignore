@@ -16,3 +16,6 @@
 
 # Ignore coverage
 coverage.txt
+
+# Ignore the configuration files
+configs/

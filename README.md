@@ -32,5 +32,14 @@
   and `GOPATH` to your Go cache.
 
 ## Installation
+1. Install dependencies: `go get -v ./...`
 1. Compile the bot: `go build -o compiledbot.out main.go`
-1. Run the bot: `./compiledbot.out`
+
+## Usage
+1. Configure the bot (example configuration: [configs/unittests.yaml](configs/unittests.yaml))
+1. Optional: set your configuration path using the `CONFIG_PATH` environment variable
+1. Run the bot and pass the configuration path 
+   (if you didn't set `CONFIG_PATH`): `./compiledbot.out -c configs/yourConfig.yaml`
+
+## Configuration
+See the [Godoc reference](https://godoc.org/github.com/NyanKiyoshi/izago/izago/globals#Configuration).

@@ -3,6 +3,7 @@ package managebot
 import (
 	"fmt"
 	"github.com/NyanKiyoshi/izago/izago/dispatcher"
+	"github.com/NyanKiyoshi/izago/izago/globals"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -16,8 +17,8 @@ func generateHelpText(session *discordgo.Session) {
 
 	for _, module := range dispatcher.ActivatedModules {
 		for name, command := range module.ServerCommands {
-			// TODO: add command prefix
-			helpText += fmt.Sprintf("\n%-15s%s", name, command.ShortHelp)
+			helpText += fmt.Sprintf(
+				"\n%s%-15s%s", globals.Config.Prefix, name, command.ShortHelp)
 		}
 	}
 
@@ -39,6 +40,6 @@ func getCommandHelpText(commandName string, isDm bool) string {
 		return fmt.Sprintf("help: no such command (%s).", commandName)
 	}
 
-	// TODO: add prefix
-	return fmt.Sprintf("```%s:\n%s```", commandName, commandDefs.LongHelp)
+	return fmt.Sprintf(
+		"```%s%s:\n%s```", globals.Config.Prefix, commandName, commandDefs.LongHelp)
 }

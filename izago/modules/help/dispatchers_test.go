@@ -11,24 +11,25 @@ var dispatchReceivedMessageTests = []struct {
 	returnValue string
 }{
 	// Invalid commands
-	{&discordgo.Message{Content: "help"}, ""},
-	{&discordgo.Message{Content: "something"}, ""},
-	{&discordgo.Message{Content: "help    "}, ""},
+	{&discordgo.Message{Content: ">help"}, ""},
+	{&discordgo.Message{Content: ">something"}, ""},
+	{&discordgo.Message{Content: ">help    "}, ""},
+	{&discordgo.Message{Content: ">"}, ""},
 	{&discordgo.Message{Content: ""}, ""},
 
 	// Non existing command
-	{&discordgo.Message{Content: "help invalid"}, "help: no such command (invalid)."},
+	{&discordgo.Message{Content: ">help invalid"}, "help: no such command (invalid)."},
 
 	// Existing command
 	{
 		// DM command
-		&discordgo.Message{Content: "help dmcommand"},
-		"```dmcommand:\nThis test passes.```",
+		&discordgo.Message{Content: ">help dmcommand"},
+		"```>dmcommand:\nThis test passes.```",
 	},
 	{
 		// Guild command
-		&discordgo.Message{Content: "help servercommand", GuildID: "123"},
-		"```servercommand:\nThis test passes as well.```",
+		&discordgo.Message{Content: ">help servercommand", GuildID: "123"},
+		"```>servercommand:\nThis test passes as well.```",
 	},
 }
 
