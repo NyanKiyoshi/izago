@@ -43,3 +43,11 @@
 
 ## Configuration
 See the [Godoc reference](https://godoc.org/github.com/NyanKiyoshi/izago/izago/globals#Configuration).
+
+---
+
+<div align='center'>
+  <a href='https://godoc.org/gopkg.in/NyanKiyoshi/izago.v0'>
+    <sup>Development Godoc</sup>
+  </a>
+</div>
